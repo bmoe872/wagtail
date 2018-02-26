@@ -5,6 +5,7 @@ import FocusTrap from 'focus-trap-react';
 import { STRINGS, MAX_EXPLORER_PAGES } from '../../config/wagtailConfig';
 
 import Button from '../Button/Button';
+import Icon from '../../components/Icon/Icon';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import Transition, { PUSH, POP } from '../Transition/Transition';
 import ExplorerHeader from './ExplorerHeader';
@@ -93,6 +94,11 @@ class ExplorerPanel extends React.Component {
   renderChildren() {
     const { page, nodes } = this.props;
     let children;
+    let createChildPageUrl = '/admin/pages/1/add_subpage/';
+
+    if (page.id) {
+      createChildPageUrl = `/admin/pages/${page.id}/add_subpage/`;
+    }
 
     if (!page.isFetching && !page.children.items) {
       children = (
@@ -117,6 +123,7 @@ class ExplorerPanel extends React.Component {
     return (
       <div className="c-explorer__drawer">
         {children}
+        <a href={createChildPageUrl}><Icon name="plus" />Create Child Page</a>
         {page.isFetching ? (
           <div key="fetching" className="c-explorer__placeholder">
             <LoadingSpinner />
